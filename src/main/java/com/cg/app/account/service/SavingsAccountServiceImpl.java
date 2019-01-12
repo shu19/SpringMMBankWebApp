@@ -50,8 +50,9 @@ public class SavingsAccountServiceImpl implements SavingsAccountService {
 	@Override
 	public void fundTransfer(SavingsAccount sender, SavingsAccount receiver, double amount) {
 		
-		((SavingsAccountService) AopContext.currentProxy()).deposit(receiver, amount);
+
 		((SavingsAccountService) AopContext.currentProxy()).withdraw(sender, amount);
+		((SavingsAccountService) AopContext.currentProxy()).deposit(receiver, amount);
 
 	}
 

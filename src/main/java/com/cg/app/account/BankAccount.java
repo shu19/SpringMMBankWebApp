@@ -3,8 +3,16 @@ package com.cg.app.account;
 public class BankAccount {
 	private int accountNumber;
 	private double accountBalance;
+	public void setAccountBalance(double accountBalance) {
+		this.accountBalance = accountBalance;
+	}
+
 	private String accountHolderName;
-	
+
+	public BankAccount() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public BankAccount(String accountHolderName, double accountBalance) {
 		this.accountHolderName = accountHolderName;
 		this.accountBalance = accountBalance;
@@ -35,7 +43,7 @@ public class BankAccount {
 	public double getAccountBalance() {
 		return accountBalance;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "BankAccount [accountNumber=" + accountNumber + ", accountBalance=" + accountBalance

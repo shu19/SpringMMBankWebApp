@@ -9,19 +9,18 @@
 
 
 <style>
-
 </style>
 
 
 </head>
 <body>
 	<header>
-	<jsp:include page="header.html"></jsp:include>
-	 </header>
+		<jsp:include page="header.html"></jsp:include>
+	</header>
+	
 	<div class="container col-md-4 col-md-offset-4">
 
-
-		<form class="form-horizontal" action="withdrawForm.mm">
+		<form class="form-horizontal" action="withdraw" method="post">
 			<div class="form-group">
 				<label class="control-label col-sm-5">Account No :</label>
 				<div class="col-sm-7">
@@ -36,19 +35,17 @@
 					<input type="number" class="form-control" placeholder="Amount"
 						name="txtAmount">
 				</div>
-
 			</div>
-
 
 			<button type="submit" class="btn btn-default center-block"
 				style="margin-top: 16px;">Withdraw</button>
-
 
 		</form>
 
 	</div>
 
 	<footer>
-	<jsp:include page="footer.html"></jsp:include> </footer>
+		<jsp:include page="footer.html"></jsp:include>
+	</footer>
 </body>
 </html>

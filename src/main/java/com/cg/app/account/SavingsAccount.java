@@ -1,13 +1,17 @@
 package com.cg.app.account;
 
-public class SavingsAccount implements Comparable<SavingsAccount>{
+public class SavingsAccount implements Comparable<SavingsAccount> {
 	private boolean salary;
 	private BankAccount bankAccount;
+
+	public SavingsAccount() {
+	}
 
 	public SavingsAccount(String accountHolderName, double accountBalance, boolean salary) {
 		bankAccount = new BankAccount(accountHolderName, accountBalance);
 		this.salary = salary;
 	}
+
 	public SavingsAccount(String accountHolderName, boolean salary) {
 		bankAccount = new BankAccount(accountHolderName);
 		this.salary = salary;
@@ -17,7 +21,7 @@ public class SavingsAccount implements Comparable<SavingsAccount>{
 		bankAccount = new BankAccount(accountNumber, accountHolderName, accountBalance);
 		this.salary = salary;
 	}
-	
+
 	public boolean isSalary() {
 		return salary;
 	}
@@ -25,7 +29,7 @@ public class SavingsAccount implements Comparable<SavingsAccount>{
 	public void setSalary(boolean salary) {
 		this.salary = salary;
 	}
-	
+
 	public BankAccount getBankAccount() {
 		return bankAccount;
 	}
@@ -38,24 +42,9 @@ public class SavingsAccount implements Comparable<SavingsAccount>{
 	public String toString() {
 		return "SavingsAccount [salary=" + salary + ", bankAccount=" + bankAccount + "]";
 	}
-	
+
 	@Override
-	public int compareTo(SavingsAccount o) {		
-		return this.getBankAccount().getAccountNumber()-o.getBankAccount().getAccountNumber();
+	public int compareTo(SavingsAccount o) {
+		return this.getBankAccount().getAccountNumber() - o.getBankAccount().getAccountNumber();
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

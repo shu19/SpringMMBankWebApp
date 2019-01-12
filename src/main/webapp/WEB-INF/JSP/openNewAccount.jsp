@@ -1,3 +1,6 @@
+<%@ taglib prefix="spring"
+	uri="http://www.springframework.org/tags/form"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,6 +16,11 @@
 <link rel="stylesheet" href="css/style.css" type="text/css">
 <title>HDFC Bank</title>
 
+<style type="text/css">
+.error {
+	color: red
+}
+</style>
 
 </head>
 <body>
@@ -21,59 +29,43 @@
 	</header>
 	<div class="container col-md-4 col-md-offset-4">
 
-
-		<form action="addNewAccount.mm">
+		<spring:form action="addNewSA" method="post" modelAttribute="account">
 			<div class="form-group">
-				<label>Name :</label> <input type="text" class="form-control"
-					placeholder="Name" pattern="[A-Za-z]+"
-					title="Digits and Special Characters are not allowed"
-					maxlength="25" name="txtAccHN">
-			</div>
-
-
-			<div class="form-group">
-				<label>Initial Balance :</label> <input type="text"
-					class="form-control" placeholder="Enter initial number"
-					name="txtBal">
+				<label>Name :</label>
+				<spring:input class="form-control" placeholder="Name"
+					path="bankAccount.accountHolderName" />
+				<spring:errors path="bankAccount.accountHolderName" cssClass="error"></spring:errors>
 			</div>
 
 			<div class="form-group">
-				<label>Salary Account:</label> <input type="radio" name="rgSalary"
-					value="Yes"> Yes <input type="radio" name="rgSalary"
-					value="No"> No
-			</div>
-
-
-			<!-- 			<div class="form-group">
-				<label>Email Id:</label> <input type="email" class="form-control"
-					id="email" placeholder="Enter email">
-			</div>
-			<div class="form-group">
-				<label>DOB :</label> <input type="date" class="form-control"
-					placeholder="DOB">
+				<label>Initial Balance :</label>
+				<spring:input class="form-control"
+					placeholder="Enter initial number"
+					path="bankAccount.accountBalance" />
+				<spring:errors path="bankAccount.accountBalance" cssClass="error"></spring:errors>
 			</div>
 
 			<div class="form-group">
-				<label>Phone number :</label> <input type="text"
-					class="form-control" placeholder="Enter Phone number"
-					pattern="[1-9]{1}[0-9]{9}" title="Enter 10 Digit Mobile Number"
-					maxlength="10">
+				<label>Salary Account:</label>
+				<%-- <spring:input type="radio" path="salary" value="Yes" />
+				Yes
+				<spring:input  path="salary" value="No" /> --%>
+				<%-- <spring:radiobuttons path="salary"/> --%>
+				<spring:radiobutton path="salary" value="Yes"/>
+				Yes
+				<spring:radiobutton path="salary" value="No"/>
+				No
+				<spring:errors path="salary" cssClass="error"></spring:errors>
 			</div>
- -->
 
-			<!-- 			<label>Account Type :</label> <select class="btn btn-default">
-				<option value="Saving">Saving</option>
-				<option value="Current">Current</option>
-			</select> <br />
- -->
 			<div>
 				<button type="submit" class="btn btn-default "
 					style="margin-top: 16px;">Submit</button>
-				<button type="reset" class="btn btn-danger "
+				<button type="reset" class="btn btn-danger"
 					style="margin-top: 16px; float: right;">Reset</button>
 			</div>
 
-		</form>
+		</spring:form>
 
 	</div>
 

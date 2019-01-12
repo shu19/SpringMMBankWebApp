@@ -10,7 +10,7 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet" href="css/style.css" type="text/css">
+<link rel="stylesheet" href="../css/style.css" type="text/css">
 <title>HDFC Bank</title>
 
 </head>
@@ -19,7 +19,7 @@
 
 	<header>
 		<div>
-			<img src="images/logo.png">
+			<img src="../images/logo.png">
 
 
 			<h1
@@ -40,7 +40,7 @@
 				<li><a href="searchSA.mm">Search Account</a></li>
 				<!-- <li><a href="viewSA.mm">View Account</a></li> -->
 				<li><a href="getAll">View All Customers</a></li>
-				<li><a href="updateSA.mm">Update Saving Account</a></li>
+				<li><a href="updateForm">Update Saving Account</a></li>
 				<li><a href="withdrawSA.mm">Withdraw Form</a></li>
 				<li><a href="depositSA.mm">Deposit Form</a></li>
 				<li><a href="fundTransfer.mm">Fund Transfer</a></li>

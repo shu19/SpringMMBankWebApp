@@ -22,7 +22,7 @@
 	<div class="container col-md-4 col-md-offset-4">
 
 
-		<form action="fundTransferForm.mm">
+		<form action="fundTransfer" method="post">
 			<div class="form-group">
 				<label>Sender Account No :</label> <input type="text"
 					class="form-control" placeholder="Account No" name="txtSenderAccNo">
@@ -34,12 +34,7 @@
 			<div class="form-group">
 				<label>Amount To Transfer :</label> <input type="number"
 					class="form-control" placeholder="Amount" name="txtAmount">
-			</div>
-
-			<div class="form-group">
-				<label>Remarks :</label> <input type="text" class="form-control"
-					placeholder="Remarks">
-			</div>
+			</div>			
 
 
 			<button type="submit" class="btn btn-default center-block"

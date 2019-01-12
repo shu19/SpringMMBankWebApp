@@ -1,3 +1,6 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1" isELIgnored="false"%>
+<%@ taglib  prefix="spring" uri="http://www.springframework.org/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,15 +13,16 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet" href="css/style.css" type="text/css">
+<link rel="stylesheet" href="../css/style.css" type="text/css">
 <title>HDFC Bank</title>
 
 </head>
 <body>
 
-
 	<header>
 		<div>
+		<spring:url value="/resources/images" var="images" />
+    	<img src="${images}/logo.png"/>
 			<img src="images/logo.png">
 			<h1
 				style="position: relative; bottom: 60px; text-align: center; color: #2222aa;">
@@ -31,16 +35,16 @@
 		<div class="container-fluid">
 
 			<ul class="nav navbar-nav">
-				<li><a href="addNewSA.mm">Add New Account</a></li>
+				<li><a href="addNewSA">Add New Account</a></li>
 				<li><a href="closeSA.mm">Close Saving Account</a></li>
 				<li><a href="searchSA.mm">Search Account</a></li>
 				<!-- <li><a href="viewSA.mm">View Account</a></li> -->
 				<li><a href="getAll">View All Customers</a></li>
-				<li><a href="updateSA.mm">Update Saving Account</a></li>
-				<li><a href="withdrawSA.mm">Withdraw Form</a></li>
-				<li><a href="depositSA.mm">Deposit Form</a></li>
-				<li><a href="fundTransfer.mm">Fund Transfer</a></li>
-				<li><a href="currentBal.mm">Current Balance</a></li>
+				<li><a href="updateForm">Update Saving Account</a></li>
+				<li><a href="withdraw">Withdraw Form</a></li>
+				<li><a href="deposit">Deposit Form</a></li>
+				<li><a href="fundTransfer">Fund Transfer</a></li>
+				<li><a href="currentBalance">Current Balance</a></li>
 			</ul>
 		</div>
 	</nav>
@@ -48,11 +52,10 @@
 
 
 	<div class="container-fluid" style="text-align: center;">
-
-
+	
 		<h1>Welcome to HDFC Bank !!!</h1>
 		<a href="signIn.html">Sign In</a>
-
+	
 	</div>
 
 	<footer>

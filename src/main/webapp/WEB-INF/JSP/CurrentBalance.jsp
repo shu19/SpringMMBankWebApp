@@ -21,7 +21,7 @@
 	<div class="container col-md-4 col-md-offset-4">
 
 
-		<form action="currentBalForm.mm">
+		<form action="currentBalance" method="post">
 			<div class="form-group">
 				<label>Account Number :</label> <input type="text"
 					class="form-control" placeholder="Account Number"

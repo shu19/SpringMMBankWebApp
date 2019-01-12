@@ -26,10 +26,10 @@
 		<table class="table">
 			<thead>
 				<tr>
-					<th><a href="sortByAccountNumber.mm">Account Number</a></th>
-					<th><a href="sortByName.mm">Holder Name</a></th>
-					<th><a href="sortByBalance.mm">Account Balance </a></th>
-					<th><a href="sortBySalary.mm">Salary</a></th>
+					<th><a href="sortByAccountNumber">Account Number</a></th>
+					<th><a href="sortbyAccountHolderName">Holder Name</a></th>
+					<th><a href="sortByAccountBalance">Account Balance </a></th>
+					<th><a href="sortBySalary">Salary</a></th>
 					<th>Over Draft Limit</th>
 					<th>Type Of Account</th>
 				</tr>

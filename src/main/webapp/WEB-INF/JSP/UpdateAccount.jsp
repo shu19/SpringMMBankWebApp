@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+	pageEncoding="ISO-8859-1" isELIgnored="false"%>
 <%@ taglib prefix="jstl" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -22,34 +22,34 @@
 	<div class="container col-md-4 col-md-offset-4">
 
 
-		<form action="updateSavingAccount.mm">
+		<form action="updateSavingAccount">
 			<div class="form-group">
 				<label>Account No :</label> <input type="text" class="form-control"
 					placeholder="Name" maxlength="25" name="txtAccNo"
-					value="${requestScope.account.bankAccount.accountNumber}">
+					value="${account.bankAccount.accountNumber}" readonly="readonly">
 			</div>
 
 
 			<div class="form-group">
 				<label>Name :</label> <input type="text" class="form-control"
 					placeholder="Name" maxlength="25" name="txtAccHN"
-					value="${requestScope.account.bankAccount.accountHolderName}">
+					value="${account.bankAccount.accountHolderName}">
 			</div>
 
 			<div class="form-group">
 				<label>Account Balance :</label> <input type="text" class="form-control"
 					placeholder="Name" maxlength="25" name="txtAccBal"
-					value="${requestScope.account.bankAccount.accountBalance}">
+					value="${account.bankAccount.accountBalance}" readonly="readonly">
 			</div>
 
 			<div class="form-group">
 
 				<label>Salary Account:</label>
-				<jstl:if test="${requestScope.account.salary == true}">
+				<jstl:if test="${account.salary == true}">
 					<input type="radio" name="rgSalary" value="Yes" checked> Yes				
 				<input type="radio" name="rgSalary" value="No"> No
 				</jstl:if>
-				<jstl:if test="${requestScope.account.salary == false}">
+				<jstl:if test="${account.salary == false}">
 					<input type="radio" name="rgSalary" value="Yes"> Yes				
 				<input type="radio" name="rgSalary" value="No" checked> No
 				</jstl:if>

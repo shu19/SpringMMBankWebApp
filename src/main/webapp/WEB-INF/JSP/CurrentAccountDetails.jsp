@@ -29,7 +29,7 @@
 					<th><a href="sortByAccountNumber">Account Number</a></th>
 					<th><a href="sortbyAccountHolderName">Holder Name</a></th>
 					<th><a href="sortByAccountBalance">Account Balance </a></th>
-					<th><a href="sortBySalary">Salary</a></th>
+					<th><a href="sortByAccountBalance">Over Draft Limit</a></th>
 				</tr>
 
 			</thead>
@@ -39,8 +39,7 @@
 						<td>${account.bankAccount.accountNumber}</td>
 						<td>${account.bankAccount.accountHolderName}</td>
 						<td>${account.bankAccount.accountBalance}</td>
-						<td>${account.salary}</td>
-
+						<td>${account.odLimit}</td>
 					</tr>
 
 				</jstl:forEach>

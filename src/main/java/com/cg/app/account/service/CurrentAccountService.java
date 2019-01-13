@@ -1,46 +1,33 @@
 package com.cg.app.account.service;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import com.cg.app.account.CurrentAccount;
-import com.cg.app.exception.AccountNotFoundException;
 
 public interface CurrentAccountService {
 
-	CurrentAccount createNewAccount(String accountHolderName, double accountBalance, double odLimit) throws ClassNotFoundException, SQLException;
+	CurrentAccount createNewAccount(String accountHolderName, double accountBalance, double odLimit);
 
-	CurrentAccount getAccountById(int accountNumber) throws ClassNotFoundException, SQLException, AccountNotFoundException;
+	CurrentAccount getAccountById(int accountNumber);
 
-	boolean deleteAccount(int accountNumber) throws ClassNotFoundException, SQLException, AccountNotFoundException;
-	
-	List<CurrentAccount> getAllCurrentAccount() throws ClassNotFoundException, SQLException;
+	boolean deleteAccount(int accountNumber);
 
-	void fundTransfer(CurrentAccount sender, CurrentAccount receiver, double amount) throws ClassNotFoundException, SQLException;
-	void deposit(CurrentAccount account, double amount) throws ClassNotFoundException, SQLException;
-	void withdraw(CurrentAccount account, double amount) throws ClassNotFoundException, SQLException;
+	List<CurrentAccount> getAllCurrentAccount();
 
-	
-	List<CurrentAccount> getSortedAccounts(int sortBy) throws ClassNotFoundException, SQLException;
+	void fundTransfer(CurrentAccount sender, CurrentAccount receiver, double amount);
 
-	int updateAccount(int accountnumber, String newAccountHolderName) throws ClassNotFoundException, SQLException;
+	void deposit(CurrentAccount account, double amount);
 
-	double checkAccountBalance(int accountnumber) throws ClassNotFoundException, SQLException, AccountNotFoundException;
+	void withdraw(CurrentAccount account, double amount);
 
-	CurrentAccount getAccountByHolderName(String accountHolderName) throws ClassNotFoundException, AccountNotFoundException, SQLException;
+	List<CurrentAccount> getSortedAccounts(int sortBy);
 
-	List<CurrentAccount> getAllCurrentAccountInBalanceRange(
-			double minimumAccountBalance, double maximumAccountBalance) throws ClassNotFoundException, SQLException, AccountNotFoundException;
-	
+	int updateAccount(int accountnumber, String newAccountHolderName);
+
+	double checkAccountBalance(int accountnumber);
+
+	CurrentAccount getAccountByHolderName(String accountHolderName);
+
+	List<CurrentAccount> getAllCurrentAccountInBalanceRange(double minimumAccountBalance, double maximumAccountBalance);
+
 }
-
-
-
-
-
-
-
-
-
-
-

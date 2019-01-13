@@ -16,7 +16,7 @@ public class SavingsAccountMapper implements RowMapper<SavingsAccount>{
 		String accountHolderName=rs.getString(2);
 		double balance=rs.getDouble(3);
 		boolean isSalary=rs.getBoolean(4);
-		
+
 		return new SavingsAccount(accountNumber,accountHolderName,balance, isSalary);
 		
 	}

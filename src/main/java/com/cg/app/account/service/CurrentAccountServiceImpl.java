@@ -1,42 +1,42 @@
 package com.cg.app.account.service;
 
-import java.sql.SQLException;
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.cg.app.account.CurrentAccount;
 import com.cg.app.account.dao.CurrentAccountDAO;
-import com.cg.app.account.dao.CurrentAccountDAOImpl;
 import com.cg.app.account.factory.AccountFactory;
-import com.cg.app.account.util.DBUtil;
-import com.cg.app.exception.AccountNotFoundException;
 import com.cg.app.exception.InsufficientFundsException;
 import com.cg.app.exception.InvalidInputException;
 
+@Service
 public class CurrentAccountServiceImpl implements CurrentAccountService {
 
 	private AccountFactory factory;
+
+	@Autowired
 	private CurrentAccountDAO currentAccountDAO;
 
 	public CurrentAccountServiceImpl() {
 		factory = AccountFactory.getInstance();
-		currentAccountDAO = new CurrentAccountDAOImpl();
 	}
 
 	@Override
-	public CurrentAccount createNewAccount(String accountHolderName, double accountBalance, double odLimit)
-			throws ClassNotFoundException, SQLException {
+	public CurrentAccount createNewAccount(String accountHolderName, double accountBalance, double odLimit) {
 		CurrentAccount account = factory.createNewCurrentAccount(accountHolderName, accountBalance, odLimit);
 		currentAccountDAO.createNewAccount(account);
 		return null;
 	}
 
 	@Override
-	public List<CurrentAccount> getAllCurrentAccount() throws ClassNotFoundException, SQLException {
+	public List<CurrentAccount> getAllCurrentAccount() {
 		return currentAccountDAO.getAllCurrentAccount();
 	}
 
 	@Override
-	public void deposit(CurrentAccount account, double amount) throws ClassNotFoundException, SQLException {
+	public void deposit(CurrentAccount account, double amount) {
 		if (amount > 0) {
 			double currentBalance = account.getBankAccount().getAccountBalance();
 			currentBalance += amount;
@@ -48,7 +48,7 @@ public class CurrentAccountServiceImpl implements CurrentAccountService {
 	}
 
 	@Override
-	public void withdraw(CurrentAccount account, double amount) throws ClassNotFoundException, SQLException {
+	public void withdraw(CurrentAccount account, double amount) {
 		double currentBalance = account.getBankAccount().getAccountBalance() + account.getOdLimit();
 		if (amount > 0 && currentBalance >= amount) {
 			currentBalance -= amount;
@@ -60,63 +60,48 @@ public class CurrentAccountServiceImpl implements CurrentAccountService {
 	}
 
 	@Override
-	public void fundTransfer(CurrentAccount sender, CurrentAccount receiver, double amount)
-			throws ClassNotFoundException, SQLException {
-		try {
+	public void fundTransfer(CurrentAccount sender, CurrentAccount receiver, double amount) {
 			withdraw(sender, amount);
 			deposit(receiver, amount);
-			DBUtil.commit();
-		} catch (InvalidInputException | InsufficientFundsException e) {
-			e.printStackTrace();
-			DBUtil.rollback();
-		} catch (Exception e) {
-			e.printStackTrace();
-			DBUtil.rollback();
-		}
 	}
 
 	@Override
-	public CurrentAccount getAccountById(int accountNumber)
-			throws ClassNotFoundException, SQLException, AccountNotFoundException {
+	public CurrentAccount getAccountById(int accountNumber) {
 		return currentAccountDAO.getAccountById(accountNumber);
 	}
 
 	@Override
-	public boolean deleteAccount(int accountNumber)
-			throws ClassNotFoundException, SQLException, AccountNotFoundException {
+	public boolean deleteAccount(int accountNumber) {
 
 		return currentAccountDAO.deleteAccount(accountNumber);
 	}
 
 	@Override
-	public List<CurrentAccount> getSortedAccounts(int choice) throws ClassNotFoundException, SQLException {
+	public List<CurrentAccount> getSortedAccounts(int choice) {
 		return currentAccountDAO.getSortedAccounts(choice);
 	}
 
 	@Override
-	public int updateAccount(int accountnumber, String newAccountHolderName)
-			throws ClassNotFoundException, SQLException {
+	public int updateAccount(int accountnumber, String newAccountHolderName) {
 
 		return currentAccountDAO.updateAccount(accountnumber, newAccountHolderName);
 	}
 
 	@Override
-	public double checkAccountBalance(int accountnumber)
-			throws ClassNotFoundException, SQLException, AccountNotFoundException {
+	public double checkAccountBalance(int accountnumber) {
 
 		return currentAccountDAO.getAccountBalance(accountnumber);
 	}
 
 	@Override
-	public CurrentAccount getAccountByHolderName(String accountHolderName)
-			throws ClassNotFoundException, AccountNotFoundException, SQLException {
+	public CurrentAccount getAccountByHolderName(String accountHolderName) {
 
 		return currentAccountDAO.getAccountByHolderName(accountHolderName);
 	}
 
 	@Override
 	public List<CurrentAccount> getAllCurrentAccountInBalanceRange(double minimumAccountBalance,
-			double maximumAccountBalance) throws ClassNotFoundException, SQLException, AccountNotFoundException {
+			double maximumAccountBalance) {
 
 		return currentAccountDAO.getAllCurrentAccountInBalanceRange(minimumAccountBalance, maximumAccountBalance);
 	}

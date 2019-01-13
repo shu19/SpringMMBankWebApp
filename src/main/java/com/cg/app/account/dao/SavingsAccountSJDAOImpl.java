@@ -2,6 +2,7 @@ package com.cg.app.account.dao;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -14,6 +15,8 @@ import com.cg.app.account.dao.mapper.SavingsAccountMapper;
 @Repository
 public class SavingsAccountSJDAOImpl implements SavingsAccountDAO {
 
+	Logger logger = Logger.getLogger(SavingsAccountSJDAOImpl.class);
+	
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
@@ -22,6 +25,7 @@ public class SavingsAccountSJDAOImpl implements SavingsAccountDAO {
 		jdbcTemplate.update("INSERT INTO ACCOUNT (account_hn,account_bal,salary,type) VALUES(?,?,?,?)",
 				new Object[] { account.getBankAccount().getAccountHolderName(),
 						account.getBankAccount().getAccountBalance(), account.isSalary(), "SA" });
+		logger.debug("Saving Account created Successfully!!!");
 		return account;
 	}
 
@@ -85,7 +89,7 @@ public class SavingsAccountSJDAOImpl implements SavingsAccountDAO {
 
 	@Override
 	public double getAccountBalance(int accountnumber) {
-		String query = "SELECT account_bal FROM ACCOUNT WHERE account_id=?";
+		String query = "SELECT account_bal FROM ACCOUNT WHERE account_id=? AND TYPE='SA'";
 
 		return jdbcTemplate.queryForObject(query, new Object[] { accountnumber }, Double.class);
 	}

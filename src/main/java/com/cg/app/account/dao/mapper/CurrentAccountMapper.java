@@ -11,8 +11,11 @@ public class CurrentAccountMapper implements RowMapper<CurrentAccount> {
 
 	@Override
 	public CurrentAccount mapRow(ResultSet rs, int rowNum) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		int accountNumber=rs.getInt(1);
+		String accountHolderName=rs.getString(2);
+		double accountBalance=rs.getDouble(3);
+		double odLimit=rs.getDouble(5);
+		return new CurrentAccount(accountNumber, accountHolderName, accountBalance, odLimit);
 	}
 
 }

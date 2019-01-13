@@ -7,6 +7,7 @@ import java.util.TreeSet;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,42 +18,64 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.cg.app.account.CurrentAccount;
 import com.cg.app.account.SavingsAccount;
+import com.cg.app.account.service.CurrentAccountService;
 import com.cg.app.account.service.SavingsAccountService;
 
 @Controller
 @SessionAttributes("account")
 public class AccountController {
+	Logger logger = Logger.getLogger(AccountController.class);
 
 	@Autowired
-	SavingsAccountService service;
+	SavingsAccountService savingsAccountService;
+
+	@Autowired
+	CurrentAccountService currentAccountService;
 
 	@RequestMapping(value = "/addNewSA", method = RequestMethod.GET)
-	public String addNewSavingAccount(Map<String,SavingsAccount> map) {
+	public String addNewSavingAccount(Map<String, SavingsAccount> map) {
 		map.put("account", new SavingsAccount());
 		return "openNewAccount";
 	}
 
 	@RequestMapping(value = "/addNewSA", method = RequestMethod.POST)
-	public String addNewSavingAccount(@ModelAttribute("account") SavingsAccount savingsAccount,BindingResult result) {
-		service.createNewAccount(savingsAccount.getBankAccount().getAccountHolderName(), 
-				savingsAccount.getBankAccount().getAccountBalance(),
-				savingsAccount.isSalary());
-		if(result.hasErrors()) {
+	public String addNewSavingAccount(@ModelAttribute("account") SavingsAccount savingsAccount, BindingResult result) {
+		savingsAccountService.createNewAccount(savingsAccount.getBankAccount().getAccountHolderName(),
+				savingsAccount.getBankAccount().getAccountBalance(), savingsAccount.isSalary());
+		if (result.hasErrors()) {
 			return "openNewAccount";
 		}
 		System.out.println(savingsAccount);
 		return "redirect:afterAddNewSA";
 	}
 
-	@RequestMapping(value="/afterAddNewSA")
+	@RequestMapping(value = "/addNewCA", method = RequestMethod.GET)
+	public String addNewCurrentAccount(Map<String, SavingsAccount> map) {
+		map.put("account", new SavingsAccount());
+		return "openNewAccount";
+	}
+
+	@RequestMapping(value = "/addNewCA", method = RequestMethod.POST)
+	public String addNewCurrentAccount(@ModelAttribute("account") CurrentAccount currentAccount, BindingResult result) {
+		currentAccountService.createNewAccount(currentAccount.getBankAccount().getAccountHolderName(),
+				currentAccount.getBankAccount().getAccountBalance(), currentAccount.getOdLimit());
+		if (result.hasErrors()) {
+			return "openNewAccount";
+		}
+		System.out.println(currentAccount);
+		return "redirect:afterAddNewCA";
+	}
+
+	@RequestMapping(value = "/afterAddNewSA")
 	public String afterAddNewSavingAccount() {
 		return "redirect:getAll";
 	}
-	
+
 	@RequestMapping("/getAll")
 	public String getAllSavingAccounts(Model model) {
-		List<SavingsAccount> accounts = service.getAllSavingsAccount();
+		List<SavingsAccount> accounts = savingsAccountService.getAllSavingsAccount();
 		model.addAttribute("accounts", accounts);
 		return "AccountDetails";
 	}
@@ -65,13 +88,14 @@ public class AccountController {
 
 			@Override
 			public int compare(SavingsAccount o1, SavingsAccount o2) {
-				return flagAccountHolderName*o1.getBankAccount().getAccountHolderName().compareTo(o2.getBankAccount().getAccountHolderName());
+				return flagAccountHolderName * o1.getBankAccount().getAccountHolderName()
+						.compareTo(o2.getBankAccount().getAccountHolderName());
 			}
 		});
-		accounts.addAll(service.getAllSavingsAccount());
+		accounts.addAll(savingsAccountService.getAllSavingsAccount());
 
 		model.addAttribute("accounts", accounts);
-		flagAccountHolderName*=-1;
+		flagAccountHolderName *= -1;
 		return "AccountDetails";
 	}
 
@@ -88,7 +112,7 @@ public class AccountController {
 						- o2.getBankAccount().getAccountNumber();
 			}
 		});
-		accounts.addAll(service.getAllSavingsAccount());
+		accounts.addAll(savingsAccountService.getAllSavingsAccount());
 
 		model.addAttribute("accounts", accounts);
 
@@ -97,18 +121,41 @@ public class AccountController {
 		return "AccountDetails";
 	}
 
-	int flagAccountBalance=1;
+	int flagAccountBalance = 1;
+
 	@RequestMapping(value = "/sortByAccountBalance", method = RequestMethod.GET)
 	public String sortByAccountBalance(Model model) {
 		TreeSet<SavingsAccount> accounts = new TreeSet<>(new Comparator<SavingsAccount>() {
 
 			@Override
 			public int compare(SavingsAccount o1, SavingsAccount o2) {
-				return (int) (flagAccountBalance*(o1.getBankAccount().getAccountBalance() - o2.getBankAccount().getAccountBalance()));
+				return (int) (flagAccountBalance
+						* (o1.getBankAccount().getAccountBalance() - o2.getBankAccount().getAccountBalance()));
 			}
 		});
-		accounts.addAll(service.getAllSavingsAccount());
-		flagAccountBalance*=-1;
+		accounts.addAll(savingsAccountService.getAllSavingsAccount());
+		flagAccountBalance *= -1;
+		model.addAttribute("accounts", accounts);
+		return "AccountDetails";
+	}
+
+	int flagSortBySalary = 1;
+
+	@RequestMapping(value = "/sortBySalary", method = RequestMethod.GET)
+	public String sortBySalary(Model model) {
+		TreeSet<SavingsAccount> accounts = new TreeSet<>(new Comparator<SavingsAccount>() {
+
+			@Override
+			public int compare(SavingsAccount o1, SavingsAccount o2) {
+				if (o1.isSalary() == o2.isSalary()) {
+					return 1 * flagSortBySalary;
+				} else {
+					return -1 * flagSortBySalary;
+				}
+			}
+		});
+		accounts.addAll(savingsAccountService.getAllSavingsAccount());
+		flagSortBySalary *= -1;
 		model.addAttribute("accounts", accounts);
 		return "AccountDetails";
 	}
@@ -121,7 +168,7 @@ public class AccountController {
 	@RequestMapping("/updateSaving")
 	public String updateForm(HttpServletRequest request, Model model) {
 		int accountNumber = Integer.parseInt(request.getParameter("accountNumber"));
-		SavingsAccount account = service.getAccountById(accountNumber);
+		SavingsAccount account = savingsAccountService.getAccountById(accountNumber);
 		model.addAttribute("account", account);
 		return "UpdateAccount";
 	}
@@ -130,12 +177,12 @@ public class AccountController {
 	public String update(HttpServletRequest request, Model model) {
 
 		int accountNumber = Integer.parseInt(request.getParameter("txtAccNo"));
-		String accountHolderName = request.getParameter("txtAccHN");		
+		String accountHolderName = request.getParameter("txtAccHN");
 		double accountBalance = Double.parseDouble(request.getParameter("txtAccBal"));
 		boolean salary = request.getParameter("rgSalary").equalsIgnoreCase("yes") ? true : false;
 
 		SavingsAccount savingsAccount = new SavingsAccount(accountNumber, accountHolderName, accountBalance, salary);
-		service.updateAccount(savingsAccount);
+		savingsAccountService.updateAccount(savingsAccount);
 		return "redirect:getAll";
 	}
 
@@ -146,8 +193,8 @@ public class AccountController {
 
 	@RequestMapping(value = "/withdraw", method = RequestMethod.POST)
 	public String withdraw(@RequestParam("txtAccNo") int accountNumber, @RequestParam("txtAmount") int amount) {
-		SavingsAccount account = service.getAccountById(accountNumber);
-		service.withdraw(account, amount);
+		SavingsAccount account = savingsAccountService.getAccountById(accountNumber);
+		savingsAccountService.withdraw(account, amount);
 		return "redirect:getAll";
 	}
 
@@ -158,9 +205,8 @@ public class AccountController {
 
 	@RequestMapping(value = "/deposit", method = RequestMethod.POST)
 	public String deposit(@RequestParam("txtAccNo") int accountNumber, @RequestParam("txtAmount") int amount) {
-		SavingsAccount account = service.getAccountById(accountNumber);
-		service.deposit(account, amount);
-		;
+		SavingsAccount account = savingsAccountService.getAccountById(accountNumber);
+		savingsAccountService.deposit(account, amount);
 		return "redirect:getAll";
 	}
 
@@ -172,9 +218,9 @@ public class AccountController {
 	@RequestMapping(value = "/fundTransfer", method = RequestMethod.POST)
 	public String fundTransfer(@RequestParam("txtSenderAccNo") int senderAccountNumber,
 			@RequestParam("txtReceiverAccNo") int receiverAccountNumber, @RequestParam("txtAmount") int amount) {
-		SavingsAccount sender = service.getAccountById(senderAccountNumber);
-		SavingsAccount receiver = service.getAccountById(receiverAccountNumber);
-		service.fundTransfer(sender, receiver, amount);
+		SavingsAccount sender = savingsAccountService.getAccountById(senderAccountNumber);
+		SavingsAccount receiver = savingsAccountService.getAccountById(receiverAccountNumber);
+		savingsAccountService.fundTransfer(sender, receiver, amount);
 		return "redirect:getAll";
 	}
 
@@ -185,7 +231,7 @@ public class AccountController {
 
 	@RequestMapping(value = "/currentBalance", method = RequestMethod.POST)
 	public String currentBalance(@RequestParam("txtAccountNumber") int accountNumber, Model model) {
-		SavingsAccount account = service.getAccountById(accountNumber);
+		SavingsAccount account = savingsAccountService.getAccountById(accountNumber);
 		model.addAttribute("account", account);
 		return "balance";
 	}

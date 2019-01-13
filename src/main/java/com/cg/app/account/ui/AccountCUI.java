@@ -1,6 +1,5 @@
 package com.cg.app.account.ui;
 
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -9,9 +8,6 @@ import org.springframework.stereotype.Component;
 
 import com.cg.app.account.SavingsAccount;
 import com.cg.app.account.service.SavingsAccountService;
-import com.cg.app.account.service.SavingsAccountServiceImpl;
-import com.cg.app.account.util.DBUtil;
-import com.cg.app.exception.AccountNotFoundException;
 
 @Component
 public class AccountCUI {
@@ -78,11 +74,7 @@ public class AccountCUI {
 			sortMenu();
 			break;
 		case 11:
-			try {
-				DBUtil.closeConnection();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+			
 			System.exit(0);
 			break;
 		default:
